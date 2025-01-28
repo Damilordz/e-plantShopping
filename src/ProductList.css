@@ -46,6 +46,7 @@ body {
     width: 100vw;
     align-items: center;
     justify-content: center;
+    padding: 40px;
 }
 .product-list {
     display: flex;
