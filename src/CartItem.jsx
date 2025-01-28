@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import { removeItem, updateQuantity } from "./CartSlice";
 import "./CartItem.css";
 import PropTypes from "prop-types";
@@ -6,6 +7,7 @@ import PropTypes from "prop-types";
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
+  const [showMessage, setShowMessage] = useState(false);
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
@@ -34,7 +36,11 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   const handleRemove = (item) => {
-    dispatch(removeItem({ id: item.id }));
+    dispatch(removeItem(item));
+  };
+
+  const handleCheckout = () => {
+    setShowMessage(true); // Show the "Coming Soon" message when the button is clicked
   };
 
   // Calculate total cost based on quantity for an item
@@ -96,7 +102,14 @@ const CartItem = ({ onContinueShopping }) => {
           Continue Shopping
         </button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={handleCheckout}>
+          Checkout
+        </button>{" "}
+        {showMessage && (
+          <p style={{ color: "green", marginTop: "10px", fontWeight: "bold" }}>
+            Coming Soon!
+          </p>
+        )}
       </div>
     </div>
   );
