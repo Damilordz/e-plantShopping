@@ -4,7 +4,7 @@ import { removeItem, updateQuantity } from "./CartSlice";
 import "./CartItem.css";
 import PropTypes from "prop-types";
 
-const CartItem = ({ onContinueShopping }) => {
+const CartItem = ({ onContinueShopping, onRemoveItem }) => {
   const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const [showMessage, setShowMessage] = useState(false);
@@ -37,6 +37,7 @@ const CartItem = ({ onContinueShopping }) => {
 
   const handleRemove = (item) => {
     dispatch(removeItem(item));
+    onRemoveItem(item); 
   };
 
   const handleCheckout = () => {

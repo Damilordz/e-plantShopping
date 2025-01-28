@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./ProductList.css";
 import CartItem from "./CartItem";
-import { addItem } from "./CartSlice";
+import { addItem, removeItem } from "./CartSlice";
 import AboutUs from "./AboutUs";
 
 function ProductList() {
@@ -12,6 +12,14 @@ function ProductList() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
   const totalCartItems = cartItems.length;
+
+  useEffect(() => {
+    const updatedAddedToCart = {};
+    cartItems.forEach((item) => {
+      updatedAddedToCart[item.name] = true;
+    });
+    setAddedToCart(updatedAddedToCart);
+  }, [cartItems]);
 
   const plantsArray = [
     {
@@ -317,6 +325,16 @@ function ProductList() {
       [product.name]: true,
     }));
   };
+
+  const handleRemoveFromCart = (product) => {
+    dispatch(removeItem(product));
+    setAddedToCart((prevState) => {
+      const updatedState = { ...prevState };
+      delete updatedState[product.name]; // Remove the item from `addedToCart`
+      return updatedState;
+    });
+  };
+
   return (
     <div>
       <div className="navbar" style={styleObj}>
@@ -412,7 +430,10 @@ function ProductList() {
           })}
         </div>
       ) : (
-        <CartItem onContinueShopping={handleContinueShopping} />
+        <CartItem
+          onContinueShopping={handleContinueShopping}
+          onRemoveItem={handleRemoveFromCart}
+        />
       )}
     </div>
   );
