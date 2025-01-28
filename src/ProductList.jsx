@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "./ProductList.css";
 import CartItem from "./CartItem";
 import { addItem } from "./CartSlice";
+import AboutUs from "./AboutUs";
 
 function ProductList() {
   const [showCart, setShowCart] = useState(false);
@@ -300,7 +301,7 @@ function ProductList() {
   };
   const handlePlantsClick = (e) => {
     e.preventDefault();
-    setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
+    setShowPlants(!showPlants); // Set showAboutUs to true when "About Us" link is clicked
     setShowCart(false); // Hide the cart when navigating to About Us
   };
 
@@ -325,7 +326,7 @@ function ProductList() {
               src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png"
               alt=""
             />
-            <a href="/" style={{ textDecoration: "none" }}>
+            <a href="/e-plantShopping" style={{ textDecoration: "none" }}>
               <div>
                 <h3 style={{ color: "white" }}>Paradise Nursery</h3>
                 <i style={{ color: "white" }}>Where Green Meets Serenity</i>
@@ -371,7 +372,9 @@ function ProductList() {
           </div>
         </div>
       </div>
-      {!showCart ? (
+      {showPlants ? (
+        <AboutUs />
+      ) : !showCart ? (
         <div className="product-grid">
           {plantsArray.map((category, index) => {
             return (
